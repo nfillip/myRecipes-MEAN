@@ -1,6 +1,6 @@
 import * as mongodb from "mongodb";
 
-export interface Employee {
+export interface Recipe {
     name: string;
     position: string;
     level: "junior" | "mid" | "senior";

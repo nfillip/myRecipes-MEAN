@@ -2,23 +2,23 @@ import * as express from "express";
 import * as mongodb from "mongodb";
 import { collections } from "./database";
 
-export const employeeRouter = express.Router();
-employeeRouter.use(express.json());
+export const recipeRouter = express.Router();
+recipeRouter.use(express.json());
 
-employeeRouter.get("/", async (_req, res) => {
+recipeRouter.get("/", async (_req, res) => {
     try {
-        const employees = await collections.employees.find({}).toArray();
+        const employees = await collections.recipes.find({}).toArray();
         res.status(200).send(employees);
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
 
-employeeRouter.get("/:id", async (req, res) => {
+recipeRouter.get("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new mongodb.ObjectId(id) };
-        const employee = await collections.employees.findOne(query);
+        const employee = await collections.recipes.findOne(query);
 
         if (employee) {
             res.status(200).send(employee);
@@ -30,10 +30,10 @@ employeeRouter.get("/:id", async (req, res) => {
     }
 });
 
-employeeRouter.post("/", async (req, res) => {
+recipeRouter.post("/", async (req, res) => {
     try {
         const employee = req.body;
-        const result = await collections.employees.insertOne(employee);
+        const result = await collections.recipes.insertOne(employee);
 
         if (result.acknowledged) {
             res.status(201).send(`Created a new employee: ID ${result.insertedId}.`);
@@ -46,12 +46,12 @@ employeeRouter.post("/", async (req, res) => {
     }
 });
 
-employeeRouter.put("/:id", async (req, res) => {
+recipeRouter.put("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const employee = req.body;
         const query = { _id: new mongodb.ObjectId(id) };
-        const result = await collections.employees.updateOne(query, { $set: employee });
+        const result = await collections.recipes.updateOne(query, { $set: employee });
 
         if (result && result.matchedCount) {
             res.status(200).send(`Updated an employee: ID ${id}.`);
@@ -66,11 +66,11 @@ employeeRouter.put("/:id", async (req, res) => {
     }
 });
 
-employeeRouter.delete("/:id", async (req, res) => {
+recipeRouter.delete("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new mongodb.ObjectId(id) };
-        const result = await collections.employees.deleteOne(query);
+        const result = await collections.recipes.deleteOne(query);
 
         if (result && result.deletedCount) {
             res.status(202).send(`Removed an employee: ID ${id}`);

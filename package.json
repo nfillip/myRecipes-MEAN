@@ -15,7 +15,8 @@
     "build:client": "cd client && npm run build",
     "test": "npm run prepare && concurrently \"npm run test:client\" \"npm run test:server\"",
     "test:client": "cd client && npm test",
-    "test:server": "cd server && npm test"
+    "test:server": "cd server && npm test",
+    "seed": "cd server && npm run seed"
   },
   "contributors": [
     {

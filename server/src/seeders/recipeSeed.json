@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Nick Fillip",
+        "position": "Junior D",
+        "level": "junior"
+    },
+    {
+        "name": "Emily Fillip",
+        "position": "Baby sister",
+        "level": "junior"
+    },
+    {
+        "name": "Amanda Fillip",
+        "position": "Senior Developer",
+        "level": "senior"
+    },
+    {
+        "name": "Roya Fillip",
+        "position": "Mid Databases",
+        "level": "mid"
+    }
+]

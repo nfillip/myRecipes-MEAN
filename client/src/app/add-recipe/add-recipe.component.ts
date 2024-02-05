@@ -12,16 +12,16 @@ import { RecipeService } from "../recipe.service";
     ></app-recipe-form>
   `,
 })
-export class AddEmployeeComponent {
+export class AddRecipeComponent {
   constructor(
     private router: Router,
     private recipeService: RecipeService
   ) {}
 
-  addEmployee(recipe: Recipe) {
+  addRecipe(recipe: Recipe) {
     this.recipeService.createRecipe(recipe).subscribe({
       next: () => {
-        this.router.navigate(["/recipe"]);
+        this.router.navigate(["/recipes"]);
       },
       error: (error) => {
         alert("Failed to create recipe");

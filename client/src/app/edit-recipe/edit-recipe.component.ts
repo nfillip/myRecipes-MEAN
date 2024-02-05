@@ -15,7 +15,7 @@ import { RecipeService } from "../recipe.service";
   `,
 })
 export class EditRecipeComponent implements OnInit {
-  employee: BehaviorSubject<Recipe> = new BehaviorSubject({});
+  recipe: BehaviorSubject<Recipe> = new BehaviorSubject({});
 
   constructor(
     private router: Router,
@@ -30,16 +30,16 @@ export class EditRecipeComponent implements OnInit {
     }
 
     this.recipeService.getRecipe(id!).subscribe((recipe) => {
-      this.employee.next(recipe);
+      this.recipe.next(recipe);
     });
   }
 
-  editEmployee(employee: Recipe) {
+  editRecipe(recipe: Recipe) {
     this.recipeService
       .updateRecipe(this.recipe.value._id || "", recipe)
       .subscribe({
         next: () => {
-          this.router.navigate(["/recipe"]);
+          this.router.navigate(["/recipes"]);
         },
         error: (error) => {
           alert("Failed to update recipe");

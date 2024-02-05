@@ -41,8 +41,8 @@ function connectToDatabase(uri) {
         yield client.connect();
         const db = client.db("meanStackExample");
         yield applySchemaValidation(db);
-        const employeesCollection = db.collection("employees");
-        exports.collections.employees = employeesCollection;
+        const recipesCollection = db.collection("recipes");
+        exports.collections.recipes = recipesCollection;
     });
 }
 exports.connectToDatabase = connectToDatabase;
@@ -76,11 +76,11 @@ function applySchemaValidation(db) {
         };
         // Try applying the modification to the collection, if the collection doesn't exist, create it 
         yield db.command({
-            collMod: "employees",
+            collMod: "recipes",
             validator: jsonSchema
         }).catch((error) => __awaiter(this, void 0, void 0, function* () {
             if (error.codeName === "NamespaceNotFound") {
-                yield db.createCollection("employees", { validator: jsonSchema });
+                yield db.createCollection("recipes", { validator: jsonSchema });
             }
         }));
     });

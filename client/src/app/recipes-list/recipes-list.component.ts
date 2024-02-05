@@ -4,7 +4,7 @@ import { Recipe } from "../recipe";
 import { RecipeService } from "../recipe.service";
 
 @Component({
-  selector: "app-employees-list",
+  selector: "app-recipes-list",
   template: `
     <h2 class="text-center m-5">Recipe List</h2>
 

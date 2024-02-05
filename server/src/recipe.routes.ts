@@ -1,8 +1,8 @@
 import * as express from "express";
 import * as mongodb from "mongodb";
 import { collections } from "./database";
-
 export const recipeRouter = express.Router();
+
 recipeRouter.use(express.json());
 
 recipeRouter.get("/", async (_req, res) => {
@@ -33,12 +33,27 @@ recipeRouter.get("/:id", async (req, res) => {
 recipeRouter.post("/", async (req, res) => {
     try {
         const recipe = req.body;
+        console.log(typeof recipe)
         const result = await collections.recipes.insertOne(recipe);
-
         if (result.acknowledged) {
             res.status(201).send(`Created a new recipe: ID ${result.insertedId}.`);
         } else {
             res.status(500).send("Failed to create a new recipe.");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(400).send(error.message);
+    }
+});
+
+recipeRouter.post("/many", async (req, res) => {
+    try {
+        const recipe = req.body;
+        const result = await collections.recipes.insertMany(recipe);
+        if (result.acknowledged) {
+            res.status(201).send(`Seeded new data`);
+        } else {
+            res.status(500).send("Failed to seed new data.");
         }
     } catch (error) {
         console.error(error);

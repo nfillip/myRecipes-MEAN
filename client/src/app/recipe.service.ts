@@ -13,7 +13,7 @@ export class RecipeService {
   constructor(private httpClient: HttpClient) { }
 
   private refreshRecipes() {
-    this.httpClient.get<Recipe[]>(`${this.url}/employees`)
+    this.httpClient.get<Recipe[]>(`${this.url}/recipes`)
       .subscribe(recipes => {
         this.recipes$.next(recipes);
       });
@@ -25,18 +25,18 @@ export class RecipeService {
   }
 
   getRecipe(id: string): Observable<Recipe> {
-    return this.httpClient.get<Recipe>(`${this.url}/recipe/${id}`);
+    return this.httpClient.get<Recipe>(`${this.url}/recipes/${id}`);
   }
 
   createRecipe(recipe: Recipe): Observable<string> {
-    return this.httpClient.post(`${this.url}/recipe`, recipe, { responseType: 'text' });
+    return this.httpClient.post(`${this.url}/recipes`, recipe, { responseType: 'text' });
   }
 
   updateRecipe(id: string, recipe: Recipe): Observable<string> {
-    return this.httpClient.put(`${this.url}/recipe/${id}`, recipe, { responseType: 'text' });
+    return this.httpClient.put(`${this.url}/recipes/${id}`, recipe, { responseType: 'text' });
   }
 
   deleteRecipe(id: string): Observable<string> {
-    return this.httpClient.delete(`${this.url}/recipe/${id}`, { responseType: 'text' });
+    return this.httpClient.delete(`${this.url}/recipes/${id}`, { responseType: 'text' });
   }
 }

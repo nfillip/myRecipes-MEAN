@@ -7,8 +7,8 @@ recipeRouter.use(express.json());
 
 recipeRouter.get("/", async (_req, res) => {
     try {
-        const employees = await collections.recipes.find({}).toArray();
-        res.status(200).send(employees);
+        const recipes = await collections.recipes.find({}).toArray();
+        res.status(200).send(recipes);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -18,27 +18,27 @@ recipeRouter.get("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new mongodb.ObjectId(id) };
-        const employee = await collections.recipes.findOne(query);
+        const recipe = await collections.recipes.findOne(query);
 
-        if (employee) {
-            res.status(200).send(employee);
+        if (recipe) {
+            res.status(200).send(recipe);
         } else {
-            res.status(404).send(`Failed to find an employee: ID ${id}`);
+            res.status(404).send(`Failed to find a recipe: ID ${id}`);
         }
     } catch (error) {
-        res.status(404).send(`Failed to find an employee: ID ${req?.params?.id}`);
+        res.status(404).send(`Failed to find a recipe: ID ${req?.params?.id}`);
     }
 });
 
 recipeRouter.post("/", async (req, res) => {
     try {
-        const employee = req.body;
-        const result = await collections.recipes.insertOne(employee);
+        const recipe = req.body;
+        const result = await collections.recipes.insertOne(recipe);
 
         if (result.acknowledged) {
-            res.status(201).send(`Created a new employee: ID ${result.insertedId}.`);
+            res.status(201).send(`Created a new recipe: ID ${result.insertedId}.`);
         } else {
-            res.status(500).send("Failed to create a new employee.");
+            res.status(500).send("Failed to create a new recipe.");
         }
     } catch (error) {
         console.error(error);
@@ -49,16 +49,16 @@ recipeRouter.post("/", async (req, res) => {
 recipeRouter.put("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
-        const employee = req.body;
+        const recipe = req.body;
         const query = { _id: new mongodb.ObjectId(id) };
-        const result = await collections.recipes.updateOne(query, { $set: employee });
+        const result = await collections.recipes.updateOne(query, { $set: recipe });
 
         if (result && result.matchedCount) {
-            res.status(200).send(`Updated an employee: ID ${id}.`);
+            res.status(200).send(`Updated a recipe: ID ${id}.`);
         } else if (!result.matchedCount) {
-            res.status(404).send(`Failed to find an employee: ID ${id}`);
+            res.status(404).send(`Failed to find a recipe: ID ${id}`);
         } else {
-            res.status(304).send(`Failed to update an employee: ID ${id}`);
+            res.status(304).send(`Failed to update a recipe: ID ${id}`);
         }
     } catch (error) {
         console.error(error.message);
@@ -73,11 +73,11 @@ recipeRouter.delete("/:id", async (req, res) => {
         const result = await collections.recipes.deleteOne(query);
 
         if (result && result.deletedCount) {
-            res.status(202).send(`Removed an employee: ID ${id}`);
+            res.status(202).send(`Removed a recipe: ID ${id}`);
         } else if (!result) {
-            res.status(400).send(`Failed to remove an employee: ID ${id}`);
+            res.status(400).send(`Failed to remove a recipe: ID ${id}`);
         } else if (!result.deletedCount) {
-            res.status(404).send(`Failed to find an employee: ID ${id}`);
+            res.status(404).send(`Failed to find a recipe: ID ${id}`);
         }
     } catch (error) {
         console.error(error.message);

@@ -12,8 +12,8 @@ export async function connectToDatabase(uri: string) {
     const db = client.db("meanStackExample");
     await applySchemaValidation(db);
 
-    const employeesCollection = db.collection<Recipe>("employees");
-    collections.recipes = employeesCollection;
+    const recipesCollection = db.collection<Recipe>("recipes");
+    collections.recipes = recipesCollection;
 }
 
 // Update our existing collection with JSON schema validation so we know our documents will always match the shape of our Employee model, even if added elsewhere.
@@ -46,11 +46,11 @@ async function applySchemaValidation(db: mongodb.Db) {
 
     // Try applying the modification to the collection, if the collection doesn't exist, create it 
    await db.command({
-        collMod: "employees",
+        collMod: "recipes",
         validator: jsonSchema
     }).catch(async (error: mongodb.MongoServerError) => {
         if (error.codeName === "NamespaceNotFound") {
-            await db.createCollection("employees", {validator: jsonSchema});
+            await db.createCollection("recipes", {validator: jsonSchema});
         }
     });
 }

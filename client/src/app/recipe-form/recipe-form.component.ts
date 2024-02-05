@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
-import { Employee } from '../employee';
+import { Recipe } from '../recipe';
 
 @Component({
-  selector: 'app-employee-form',
+  selector: 'app-recipe-form',
   template: `
-    <form class="employee-form" autocomplete="off" [formGroup]="employeeForm" (ngSubmit)="submitForm()">
+    <form class="recipe-form" autocomplete="off" [formGroup]="recipeForm" (ngSubmit)="submitForm()">
       <div class="form-floating mb-3">
         <input class="form-control" type="text" id="name" formControlName="name" placeholder="Name" required>
         <label for="name">Name</label>
@@ -52,48 +52,48 @@ import { Employee } from '../employee';
         </div>
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="employeeForm.invalid">Add</button>
+      <button class="btn btn-primary" type="submit" [disabled]="recipeForm.invalid">Add</button>
     </form>
   `,
   styles: [
-    `.employee-form {
+    `.recipe-form {
       max-width: 560px;
       margin-left: auto;
       margin-right: auto;
     }`
   ]
 })
-export class EmployeeFormComponent implements OnInit {
+export class RecipeFormComponent implements OnInit {
   @Input()
-  initialState: BehaviorSubject<Employee> = new BehaviorSubject({});
+  initialState: BehaviorSubject<Recipe> = new BehaviorSubject({});
 
   @Output()
-  formValuesChanged = new EventEmitter<Employee>();
+  formValuesChanged = new EventEmitter<Recipe>();
 
   @Output()
-  formSubmitted = new EventEmitter<Employee>();
+  formSubmitted = new EventEmitter<Recipe>();
 
-  employeeForm: FormGroup = new FormGroup({});
+  recipeForm: FormGroup = new FormGroup({});
 
   constructor(private fb: FormBuilder) { }
 
-  get name() { return this.employeeForm.get('name')!; }
-  get position() { return this.employeeForm.get('position')!; }
-  get level() { return this.employeeForm.get('level')!; }
+  get name() { return this.recipeForm.get('name')!; }
+  get position() { return this.recipeForm.get('position')!; }
+  get level() { return this.recipeForm.get('level')!; }
 
   ngOnInit() {
-    this.initialState.subscribe(employee => {
-      this.employeeForm = this.fb.group({
-        name: [ employee.name, [Validators.required, Validators.minLength(3) ] ],
-        position: [ employee.position, [ Validators.required, Validators.minLength(5) ] ],
-        level: [ employee.level, [Validators.required] ]
+    this.initialState.subscribe(recipe => {
+      this.recipeForm = this.fb.group({
+        name: [ recipe.name, [Validators.required, Validators.minLength(3) ] ],
+        position: [ recipe.position, [ Validators.required, Validators.minLength(5) ] ],
+        level: [ recipe.level, [Validators.required] ]
       });
     });
 
-    this.employeeForm.valueChanges.subscribe((val) => { this.formValuesChanged.emit(val); });
+    this.recipeForm.valueChanges.subscribe((val) => { this.formValuesChanged.emit(val); });
   }
 
   submitForm() {
-    this.formSubmitted.emit(this.employeeForm.value);
+    this.formSubmitted.emit(this.recipeForm.value);
   }
 }
